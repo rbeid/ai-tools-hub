@@ -1,64 +1,71 @@
 
 import { useState } from "react";
-import { ToolCard } from "./components/ToolCard";
-import tools from "./data/tools";
 
-export default function App() {
-  const [search, setSearch] = useState("");
-  const filteredTools = tools.filter((tool) =>
-    tool.name.toLowerCase().includes(search.toLowerCase())
+export default function LandingPage() {
+  const allTools = [
+    { name: "AI Writer", desc: "Generate content quickly", link: "#" },
+    { name: "Chatbot", desc: "Answer customer questions", link: "#" },
+    { name: "Image Generator", desc: "Create AI-powered images", link: "#" },
+    { name: "Code Assistant", desc: "Help write & debug code", link: "#" },
+    { name: "Voice-to-Text", desc: "Convert speech to text instantly", link: "#" },
+    { name: "Research Summarizer", desc: "Summarize long articles fast", link: "#" },
+  ];
+
+  const [query, setQuery] = useState("");
+
+  // Filter tools based on search input
+  const filteredTools = allTools.filter((tool) =>
+    tool.name.toLowerCase().includes(query.toLowerCase()) ||
+    tool.desc.toLowerCase().includes(query.toLowerCase())
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-800">
-      <header className="p-6 bg-white shadow-md flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-indigo-600">AI Tools Hub</h1>
-        <nav>
-          <a href="#directory" className="mr-6 hover:text-indigo-600">Directory</a>
-          <a href="#blog" className="mr-6 hover:text-indigo-600">Blog</a>
-          <a href="#newsletter" className="hover:text-indigo-600">Newsletter</a>
-        </nav>
-      </header>
-
-      <section className="text-center py-16 bg-gradient-to-r from-indigo-500 to-purple-600 text-white">
-        <h2 className="text-4xl font-bold mb-4">Discover the Best AI Tools of 2025</h2>
-        <p className="text-lg max-w-2xl mx-auto">Curated list of AI tools to boost productivity, creativity, and automation. Updated weekly.</p>
-      </section>
-
-      <section id="directory" className="p-8 max-w-5xl mx-auto">
-        <h3 className="text-2xl font-bold mb-4">AI Tools Directory</h3>
-        <input
-          type="text"
-          placeholder="Search tools..."
-          className="w-full p-3 border rounded-lg mb-6"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredTools.map((tool) => (<ToolCard key={tool.name} tool={tool} />))}
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <section className="text-center py-20 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white">
+        <h1 className="text-5xl font-extrabold mb-4">🚀 AI Tools Hub</h1>
+        <p className="text-lg mb-8 max-w-2xl mx-auto">
+          Discover and explore powerful AI tools to boost your productivity, creativity, and business.
+        </p>
+        <div className="max-w-md mx-auto">
+          <input
+            type="text"
+            placeholder="Search AI tools..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            className="w-full px-4 py-3 rounded-xl text-black focus:outline-none shadow"
+          />
         </div>
       </section>
 
-      <section id="blog" className="p-8 max-w-5xl mx-auto">
-        <h3 className="text-2xl font-bold mb-4">Guides & Blog</h3>
-        <div className="space-y-4">
-          <a href="#" className="block p-4 bg-white shadow rounded-lg hover:bg-gray-50">Best AI Writing Tools in 2025</a>
-          <a href="#" className="block p-4 bg-white shadow rounded-lg hover:bg-gray-50">How to Automate Your Small Business with AI</a>
-          <a href="#" className="block p-4 bg-white shadow rounded-lg hover:bg-gray-50">10 Free AI Tools You Should Try Today</a>
-        </div>
+      {/* Featured Tools */}
+      <section className="py-16 px-6 max-w-6xl mx-auto">
+        <h2 className="text-3xl font-bold text-center mb-12">✨ Featured Tools</h2>
+        {filteredTools.length > 0 ? (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {filteredTools.map((tool) => (
+              <a
+                key={tool.name}
+                href={tool.link}
+                className="block p-6 bg-white rounded-2xl shadow hover:shadow-lg transition"
+              >
+                <h3 className="text-2xl font-semibold">{tool.name}</h3>
+                <p className="text-gray-600 mt-2">{tool.desc}</p>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <p className="text-center text-gray-500 text-lg">
+            ❌ No tools found for "<span className="font-semibold">{query}</span>"
+          </p>
+        )}
       </section>
 
-      <section id="newsletter" className="p-8 bg-indigo-600 text-white text-center">
-        <h3 className="text-2xl font-bold mb-4">Join 1,000+ readers getting AI updates</h3>
-        <form className="flex flex-col md:flex-row justify-center max-w-md mx-auto">
-          <input type="email" placeholder="Your email" className="p-3 rounded-md text-gray-900 mb-3 md:mb-0 md:mr-3 flex-1" />
-          <button className="bg-purple-500 hover:bg-purple-700 p-3 rounded-md">Subscribe</button>
-        </form>
-      </section>
-
-      <footer className="p-6 text-center bg-white shadow-inner mt-8">
-        <p>© {new Date().getFullYear()} AI Tools Hub. Built for automation enthusiasts.</p>
+      {/* Footer */}
+      <footer className="py-6 bg-gray-900 text-gray-400 text-center">
+        <p>© {new Date().getFullYear()} AI Tools Hub. Built with ❤️</p>
       </footer>
     </div>
   );
 }
+
