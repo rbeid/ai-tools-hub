@@ -1,12 +1,11 @@
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence, useAnimation } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
-export default function LandingPage() {
+export default function App() {
   const [query, setQuery] = useState("");
   const [selectedTool, setSelectedTool] = useState(null);
   const [hoveredTool, setHoveredTool] = useState(null);
-  const controls = useAnimation();
 
   const quickLinks = [
     {
@@ -35,13 +34,8 @@ export default function LandingPage() {
     },
   ];
 
-  // Floating particles for parallax effect
+  // Floating particles
   const particles = Array.from({ length: 12 });
-
-  // Start animations on mount
-  useEffect(() => {
-    controls.start({ opacity: 1, y: 0, transition: { duration: 1 } });
-  }, [controls]);
 
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-gray-900 px-4">
@@ -49,7 +43,7 @@ export default function LandingPage() {
       <motion.div
         className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
         animate={{ rotate: [0, 360] }}
-        transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
+        transition={{ duration: 300, repeat: Infinity, ease: "linear" }}
       />
 
       {/* Floating Particles */}
@@ -63,16 +57,8 @@ export default function LandingPage() {
             top: `${Math.random() * 100}%`,
             left: `${Math.random() * 100}%`,
           }}
-          animate={{
-            y: [0, 15, 0],
-            x: [0, 10, 0],
-          }}
-          transition={{
-            duration: 8 + i,
-            repeat: Infinity,
-            repeatType: "mirror",
-            ease: "easeInOut",
-          }}
+          animate={{ y: [0, 15, 0], x: [0, 10, 0] }}
+          transition={{ duration: 8 + i, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
         />
       ))}
 
@@ -84,7 +70,7 @@ export default function LandingPage() {
         transition={{ duration: 1 }}
       >
         {/* Hero */}
-        <h1 className="text-6xl md:text-7xl font-extrabold text-white mb-6 drop-shadow-2xl">
+        <h1 className="text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-pink-400 drop-shadow-2xl mb-6">
           🚀 AI Tools Hub
         </h1>
         <p className="text-gray-200 text-lg md:text-xl mb-10 drop-shadow-md">
@@ -98,7 +84,7 @@ export default function LandingPage() {
           className="w-full max-w-lg px-6 py-4 rounded-full shadow-2xl text-black focus:outline-none focus:ring-2 focus:ring-indigo-500 text-lg mb-10"
         />
 
-        {/* Quick Links Grid with subtle floating/parallax */}
+        {/* Quick Links Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto relative">
           {quickLinks
             .filter(
@@ -181,12 +167,13 @@ export default function LandingPage() {
                   className="rounded-xl mb-4 w-full"
                 />
               )}
-              <a
+              <motion.a
                 href={selectedTool.link}
-                className="block text-center bg-indigo-500 text-white rounded-full py-3 px-6 hover:bg-indigo-600 hover:shadow-lg transition-all"
+                whileHover={{ scale: 1.05, boxShadow: "0px 0px 20px rgba(99,102,241,0.5)" }}
+                className="block text-center bg-indigo-500 text-white rounded-full py-3 px-6 hover:bg-indigo-600 transition-all"
               >
                 Go to Tool
-              </a>
+              </motion.a>
             </motion.div>
           </motion.div>
         )}
